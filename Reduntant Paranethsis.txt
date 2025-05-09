@@ -1,0 +1,47 @@
+import java.util.Stack;
+
+public class RedundantParenthesesChecker {
+
+    public static boolean hasRedundantParentheses(String s) {
+        Stack<Character> stack = new Stack<>();
+        
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            
+            if (ch == ')') {
+                // If we immediately find '(' on top, it's redundant
+                if (stack.peek() == '(') {
+                    return true;
+                }
+                
+                // Pop until we find the matching '('
+                while (stack.peek() != '(') {
+                    stack.pop();
+                }
+                stack.pop(); // Remove the '('
+            }
+            else if (ch == '+' || ch == '-' || ch == '*' || ch == '/') {
+                stack.push(ch);
+            }
+            else if (ch == '(') {
+                stack.push(ch);
+            }
+            // Ignore other characters (like letters/numbers)
+        }
+        
+        return false;
+    }
+
+    public static void main(String[] args) {
+        String expression1 = "((a+b))";
+        String expression2 = "(a+(b)/c)";
+        String expression3 = "(a+b*(c-d))";
+        
+        System.out.println("Expression 1 has redundant parentheses: " + 
+                          hasRedundantParentheses(expression1)); // true
+        System.out.println("Expression 2 has redundant parentheses: " + 
+                          hasRedundantParentheses(expression2)); // true
+        System.out.println("Expression 3 has redundant parentheses: " + 
+                          hasRedundantParentheses(expression3)); // false
+    }
+}

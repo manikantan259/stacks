@@ -1,0 +1,22 @@
+import java.util.Queue;
+import java.util.LinkedList;
+import java.util.Stack;
+
+class Solution {
+    // Function to reverse the queue.
+    public Queue<Integer> reverseQueue(Queue<Integer> queue) {
+        Stack<Integer> stack = new Stack<>();
+        
+        // Step 1: Dequeue all elements and push them onto the stack
+        while (!queue.isEmpty()) {
+            stack.push(queue.poll());
+        }
+        
+        // Step 2: Pop all elements from the stack and enqueue them back into the queue
+        while (!stack.isEmpty()) {
+            queue.offer(stack.pop());
+        }
+        
+        return queue;
+    }
+}

@@ -1,0 +1,49 @@
+POSTFIX EVALUATION (Reverse Polish Notation)
+
+Algorithm:
+1. Initialize empty stack
+2. For each token in input:
+   a. If token is operator (+ - * /):
+      - Pop → right operand
+      - Pop → left operand
+      - Compute (left op right)
+      - Push result back
+   b. Else (number):
+      - Push token as integer
+3. Final result = stack's only element
+
+
+
+static int evaluatePostfix(String[] arr) {
+        Stack<Integer> stack = new Stack<>();
+
+        for (String token : arr) {
+            
+            // If the token is a number, push it onto the stack
+            if (token.matches("-?\\d+")) {  
+                stack.push(Integer.parseInt(token));
+            } 
+            
+            // Otherwise, it must be an operator
+            else {
+                int val1 = stack.pop();
+                int val2 = stack.pop();
+
+                switch (token) {
+                    case "+":
+                        stack.push(val2 + val1);
+                        break;
+                    case "-":
+                        stack.push(val2 - val1);
+                        break;
+                    case "*":
+                        stack.push(val2 * val1);
+                        break;
+                    case "/":
+                        stack.push(val2 / val1);
+                        break;
+                }
+            }
+        }
+        return stack.pop();
+    }
